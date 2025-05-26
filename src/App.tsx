@@ -12,6 +12,7 @@ import {
 
 import '@xyflow/react/dist/style.css'
 import { ObsidianNode } from './ObsidianNode'
+import { ObsidianEdge } from './ObsidianEdge'
 
 const initialNodes = [
   {
@@ -27,7 +28,9 @@ const initialNodes = [
     type: 'obsidian',
   },
 ]
-const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }]
+const initialEdges = [
+  { id: 'e1-2', source: '1', target: '2', type: 'obsidian' },
+]
 
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
@@ -35,6 +38,12 @@ export default function App() {
   const nodeTypes = useMemo(
     () => ({
       obsidian: ObsidianNode,
+    }),
+    []
+  )
+  const edgeTypes = useMemo(
+    () => ({
+      obsidian: ObsidianEdge,
     }),
     []
   )
@@ -53,6 +62,10 @@ export default function App() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        proOptions={{
+          hideAttribution: true,
+        }}
       >
         <Controls />
         <MiniMap />

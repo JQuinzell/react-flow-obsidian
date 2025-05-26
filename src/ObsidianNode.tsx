@@ -10,7 +10,27 @@ export function ObsidianNode({ data }: { data: any }) {
 
   return (
     <div className='relative p-4 flex flex-col items-center justify-center'>
-      <div className='rounded-full aspect-square w-12 bg-purple-900 flex items-center justify-center'></div>
+      <div className='relative p-2 rounded-full aspect-square w-12 bg-purple-900 flex items-center justify-center'>
+        <Handle
+          type='target'
+          position={Position.Top}
+          className='invisible'
+          style={{
+            top: 0,
+            transform: 'none',
+          }}
+        />
+
+        <Handle
+          type='source'
+          className='invisible'
+          style={{
+            bottom: 0,
+            transform: 'none',
+          }}
+          position={Position.Bottom}
+        />
+      </div>
       <p className='text-white text-sm absolute bottom-0 text-center'>
         {data.label}
       </p>
