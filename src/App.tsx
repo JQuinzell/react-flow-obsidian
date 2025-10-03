@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 import {
   ReactFlow,
   MiniMap,
@@ -13,27 +13,49 @@ import {
 import '@xyflow/react/dist/style.css'
 import { ObsidianNode } from './ObsidianNode'
 import { ObsidianEdge } from './ObsidianEdge'
+import { useLayoutedElements } from './layoutNodes'
 
 const initialNodes = [
   {
     id: '1',
     position: { x: 0, y: 0 },
-    data: { label: 'Node 1' },
+    data: { label: 'Classical Mechanics' },
     type: 'obsidian',
   },
   {
     id: '2',
-    position: { x: 0, y: 100 },
-    data: { label: 'Node 2' },
+    position: { x: 0, y: 0 },
+    data: { label: 'Quantum Mechanics' },
+    type: 'obsidian',
+  },
+  {
+    id: '3',
+    position: { x: 0, y: 0 },
+    data: { label: "Newton's Laws" },
+    type: 'obsidian',
+  },
+  {
+    id: '4',
+    position: { x: 0, y: 0 },
+    data: { label: 'Wave-Particle Duality' },
+    type: 'obsidian',
+  },
+  {
+    id: '5',
+    position: { x: 0, y: 0 },
+    data: { label: 'Relativity' },
     type: 'obsidian',
   },
 ]
 const initialEdges = [
-  { id: 'e1-2', source: '1', target: '2', type: 'obsidian' },
+  { id: 'e1-3', source: '1', target: '3', type: 'obsidian' },
+  { id: 'e2-4', source: '2', target: '4', type: 'obsidian' },
+  { id: 'e1-5', source: '1', target: '5', type: 'obsidian' },
+  { id: 'e2-5', source: '2', target: '5', type: 'obsidian' },
 ]
 
 export default function App() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
+  const [nodes, _setNodes, onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
   const nodeTypes = useMemo(
     () => ({
@@ -48,10 +70,7 @@ export default function App() {
     []
   )
 
-  const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
-  )
+  useLayoutedElements()
 
   return (
     <div className='w-screen h-screen bg-gray-800'>
@@ -60,7 +79,7 @@ export default function App() {
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
+        onConnect={(params) => setEdges((eds) => addEdge(params, eds))}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         proOptions={{
